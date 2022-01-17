@@ -1,22 +1,18 @@
 import { Color } from '../models/colors';
 
+import { ToolHeader } from './ToolHeader';
+import { ColorList } from './ColorList';
+
 export type ColorToolProps = {
     colors: Color[],
 };
 
 export const ColorTool = (props: ColorToolProps) => {
 
-    const colorListItems = props.colors.map(
-        (c) => <li key={c.id}>{c.name}</li>)
-
     return (
         <>
-            <header>
-                <h1>Color Tool</h1>
-            </header>
-            <ul>
-                {colorListItems}
-            </ul>
+            <ToolHeader headerText='Color Tool' />
+            <ColorList colors={props.colors} />
         </>
     );
 };

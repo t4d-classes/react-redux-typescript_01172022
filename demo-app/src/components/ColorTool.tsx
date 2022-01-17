@@ -6,9 +6,8 @@ export type ColorToolProps = {
 
 export const ColorTool = (props: ColorToolProps) => {
 
-
     const colorListItems = props.colors.map(
-        c => <li key={c.id}>{c.name}</li>)
+        (c) => <li key={c.id}>{c.name}</li>)
 
     return (
         <>

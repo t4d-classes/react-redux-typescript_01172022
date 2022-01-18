@@ -24,10 +24,21 @@ export const CarTool = (props: CarToolProps) => {
     ]);
   };
 
+  const deleteCar = (carId: number) => {
+
+    // const carIndex = cars.findIndex(c => c.id === carId);
+    // cars.splice(carIndex, 1);
+    // setCars(cars);
+    // console.log(cars);
+
+    setCars(cars.filter(c => c.id !== carId));
+    console.log(cars);
+  }
+
   return (
     <>
       <ToolHeader headerText="Car Tool" />
-      <CarTable cars={cars} />
+      <CarTable cars={cars} onDeleteCar={deleteCar} />
       <CarForm buttonText="Add Car" onSubmitCar={addCar} />
     </>
   );

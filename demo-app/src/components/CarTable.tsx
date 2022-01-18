@@ -3,9 +3,10 @@ import { CarViewRow } from "./CarViewRow";
 
 export type CarTableProps = {
   cars: Car[];
+  onDeleteCar: (carId: number) => void;
 }
 
-export const CarTable = (props: CarTableProps) => {
+export const CarTable = ({ cars, onDeleteCar: deleteCar }: CarTableProps) => {
 
   return (
     <table>
@@ -17,10 +18,12 @@ export const CarTable = (props: CarTableProps) => {
           <th scope="col">Year</th>
           <th scope="col">Color</th>
           <th scope="col">Price</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        {props.cars.map(c => <CarViewRow key={c.id} car={c} />)}
+        {cars.map(c =>
+          <CarViewRow key={c.id} car={c} onDeleteCar={deleteCar} />)}
       </tbody>
     </table>
 

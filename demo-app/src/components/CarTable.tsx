@@ -1,15 +1,19 @@
 import { Car, CarsSort, CarKeys } from '../models/cars';
+import { CarEditRow } from "./CarEditRow";
 import { CarViewRow } from "./CarViewRow";
 
 export type CarTableProps = {
   cars: Car[];
+  editCarId: number;
   carsSort: CarsSort;
+  onEditCar: (carId: number) => void;
   onDeleteCar: (carId: number) => void;
   onSortCars: (col: CarKeys) => void;
-}
+};
 
 export const CarTable = ({
-  cars, carsSort,
+  cars, editCarId, carsSort,
+  onEditCar: editCar,
   onDeleteCar: deleteCar,
   onSortCars: sortCars,
  }: CarTableProps) => {
@@ -58,8 +62,9 @@ export const CarTable = ({
         </tr>
       </thead>
       <tbody>
-        {cars.map(c =>
-          <CarViewRow key={c.id} car={c} onDeleteCar={deleteCar} />)}
+        {cars.map(c => c.id === editCarId
+          ? <CarEditRow key={c.id} car={c} />
+          : <CarViewRow key={c.id} car={c} onEditCar={editCar} onDeleteCar={deleteCar} />)}
       </tbody>
     </table>
 

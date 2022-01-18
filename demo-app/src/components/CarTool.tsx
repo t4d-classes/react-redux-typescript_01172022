@@ -17,6 +17,7 @@ export const CarTool = (props: CarToolProps) => {
     col: 'id',
     dir: ORDER_ASC,
   });
+  const [editCarId, setEditCarId ] = useState(-1);
 
   const addCar = (car: NewCar) => {
     setCars([
@@ -77,8 +78,8 @@ export const CarTool = (props: CarToolProps) => {
   return (
     <>
       <ToolHeader headerText="Car Tool" />
-      <CarTable cars={orderCars(cars, carsSort)}
-        carsSort={carsSort} onDeleteCar={deleteCar} onSortCars={sortCars} />
+      <CarTable cars={orderCars(cars, carsSort)} editCarId={editCarId}
+        carsSort={carsSort} onEditCar={setEditCarId} onDeleteCar={deleteCar} onSortCars={sortCars} />
       <CarForm buttonText="Add Car" onSubmitCar={addCar} />
     </>
   );

@@ -1,28 +1,34 @@
+import { useState } from 'react';
 
-import { Car } from '../models/cars';
+import { Car, NewCar } from '../models/cars';
 
 import { ToolHeader } from './ToolHeader';
 import { CarTable } from './CarTable';
+import { CarForm } from './CarForm';
 
 export type CarToolProps = {
-    cars: Car[];
+  cars: Car[];
 }
 
 export const CarTool = (props: CarToolProps) => {
 
-    const carRows = props.cars.map(c => <tr key={c.id}>
-        <td>{c.id}</td>
-        <td>{c.make}</td>
-        <td>{c.model}</td>
-        <td>{c.year}</td>
-        <td>{c.color}</td>
-        <td>{c.price}</td>
-    </tr>)
+  const [ cars, setCars ] = useState([ ...props.cars ]);
 
-    return (
-        <>
-           <ToolHeader headerText="Car Tool" />
-           <CarTable cars={props.cars} /> 
-        </>
-    );
+  const addCar = (car: NewCar) => {
+    setCars([
+      ...cars,
+      {
+        ...car,
+        id: Math.max(...cars.map(c => c.id), 0) + 1,
+      },
+    ]);
+  };
+
+  return (
+    <>
+      <ToolHeader headerText="Car Tool" />
+      <CarTable cars={cars} />
+      <CarForm buttonText="Add Car" onSubmitCar={addCar} />
+    </>
+  );
 };

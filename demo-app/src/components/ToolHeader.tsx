@@ -1,15 +1,15 @@
 
 
 export type ToolHeaderProps = {
-    headerText: string;
+  headerText: string;
 }
 
 export const ToolHeader = (props: ToolHeaderProps) => {
 
-    return (
-        <header>
-            <h1>{props.headerText}</h1>
-        </header>        
-    );
+  return (
+    <header>
+      <h1>{props.headerText}</h1>
+    </header>
+  );
 
 };

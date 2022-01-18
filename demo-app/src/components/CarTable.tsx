@@ -9,6 +9,8 @@ export type CarTableProps = {
   onEditCar: (carId: number) => void;
   onDeleteCar: (carId: number) => void;
   onSortCars: (col: CarKeys) => void;
+  onSaveCar: (car: Car) => void;
+  onCancelCar: () => void;  
 };
 
 export const CarTable = ({
@@ -16,6 +18,8 @@ export const CarTable = ({
   onEditCar: editCar,
   onDeleteCar: deleteCar,
   onSortCars: sortCars,
+  onSaveCar: saveCar,
+  onCancelCar: cancelCar,
  }: CarTableProps) => {
 
   return (
@@ -63,7 +67,7 @@ export const CarTable = ({
       </thead>
       <tbody>
         {cars.map(c => c.id === editCarId
-          ? <CarEditRow key={c.id} car={c} />
+          ? <CarEditRow key={c.id} car={c} onSaveCar={saveCar} onCancelCar={cancelCar} />
           : <CarViewRow key={c.id} car={c} onEditCar={editCar} onDeleteCar={deleteCar} />)}
       </tbody>
     </table>

@@ -4,10 +4,14 @@ import { Car } from '../models/cars';
 
 export type CarEditRowProps = {
   car: Car;
+  onSaveCar: (car: Car) => void;
+  onCancelCar: () => void;
 }
 
 export const CarEditRow = ({
   car,
+  onSaveCar,
+  onCancelCar: cancelCar
 }: CarEditRowProps) => {
 
   // the id is not include because it should never be changed
@@ -25,7 +29,14 @@ export const CarEditRow = ({
       [e.target.name]: e.target.type === 'number'
         ? parseInt(e.target.value, 10) : e.target.value,
     });
-  };  
+  };
+
+  const saveCar = () => {
+    onSaveCar({
+      ...carForm,
+      id: car.id,
+    });
+  };
 
   return (
     <tr>
@@ -41,8 +52,8 @@ export const CarEditRow = ({
       <td> <input type="number" name="price"
           value={carForm.price} onChange={change} /></td>
       <td>
-        <button type="button">Save</button>
-        <button type="button">Cancel</button>
+        <button type="button" onClick={saveCar}>Save</button>
+        <button type="button" onClick={cancelCar}>Cancel</button>
       </td>
     </tr>
   );

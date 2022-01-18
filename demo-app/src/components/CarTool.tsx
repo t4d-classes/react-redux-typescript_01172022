@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Car, NewCar, CarsSort } from '../models/cars';
+import { Car, NewCar, CarsSort, CarKeys, ORDER_ASC, ORDER_DESC } from '../models/cars';
 
 import { ToolHeader } from './ToolHeader';
 import { CarTable } from './CarTable';
@@ -15,17 +15,17 @@ export const CarTool = (props: CarToolProps) => {
   const [ cars, setCars ] = useState([ ...props.cars ]);
   const [ carsSort, setCarsSort ] = useState<CarsSort>({
     col: 'id',
-    dir: 'asc',
+    dir: ORDER_ASC,
   });
 
   const addCar = (car: NewCar) => {
-    // setCars([
-    //   ...cars,
-    //   {
-    //     ...car,
-    //     id: Math.max(...cars.map(c => c.id), 0) + 1,
-    //   },
-    // ]);
+    setCars([
+      ...cars,
+      {
+        ...car,
+        id: Math.max(...cars.map(c => c.id), 0) + 1,
+      },
+    ]);
   };
 
   const deleteCar = (carId: number) => {
@@ -39,7 +39,7 @@ export const CarTool = (props: CarToolProps) => {
     console.log(cars);
   }
 
-  const sortCars = (col: string) => {
+  const sortCars = (col: CarKeys) => {
 
     setCarsSort({
       // short hand property
@@ -47,10 +47,10 @@ export const CarTool = (props: CarToolProps) => {
       col,
       dir:
         col !== carsSort.col
-          ? 'asc'
-          : carsSort.dir === 'desc'
-            ? 'asc'
-            : 'desc'
+          ? ORDER_ASC
+          : carsSort.dir === ORDER_DESC
+            ? ORDER_ASC
+            : ORDER_DESC
     });
 
   };
@@ -77,7 +77,8 @@ export const CarTool = (props: CarToolProps) => {
   return (
     <>
       <ToolHeader headerText="Car Tool" />
-      <CarTable cars={orderCars(cars, carsSort)} onDeleteCar={deleteCar} onSortCars={sortCars} />
+      <CarTable cars={orderCars(cars, carsSort)}
+        carsSort={carsSort} onDeleteCar={deleteCar} onSortCars={sortCars} />
       <CarForm buttonText="Add Car" onSubmitCar={addCar} />
     </>
   );

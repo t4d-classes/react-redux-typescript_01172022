@@ -28,3 +28,17 @@ export const useForm: UseForm = (initialFormData) => {
   return [ form, change, resetForm ];
 
 };
+
+
+const doIt = () => {
+
+  const T = 2;
+
+  doIt2(T);
+
+}
+
+const doIt2 = (S) => {
+
+  S // is whatever type is passed
+}

@@ -2,40 +2,42 @@ import { useState } from 'react';
 
 import { Item, ItemId } from '../models/item';
 
-import { Car, NewCar } from '../models/cars';
+type AppendItem<S extends Item> = (item: Omit<S, 'id'>) => void;
+type ReplaceItem<S extends Item> = (item: S) => void;
+type RemoveItem = (item: ItemId) => void;
 
-type UseCarList = (initialCars: Car[]) => [
-  Car[],
-  (car: NewCar) => void,
-  (car: Car) => void,
-  (carId: number) => void,
+type UseList = <T extends Item>(initialItems: T[]) => [
+  T[],
+  AppendItem<T>,
+  ReplaceItem<T>,
+  RemoveItem,
 ];
 
-export const useCarList: UseCarList = (initialCars) => {
+export const useList: UseList = <T extends Item>(initialItems: T[]) => {
 
-  const [ cars, setCars ] = useState([ ...initialCars ]);
+  const [ items, setItems ] = useState([ ...initialItems ]);
 
-  const appendCar = (car: NewCar) => {
-    setCars([
-      ...cars,
+  const appendItem: AppendItem<T> = (item) => {
+    setItems([
+      ...items,
       {
-        ...car,
-        id: Math.max(...cars.map(c => c.id), 0) + 1,
-      },
+        ...item,
+        id: Math.max(...items.map(c => c.id), 0) + 1,
+      } as T,
     ]);
   };
 
-  const replaceCar = (car: Car) => {
-    const carIndex = cars.findIndex(c => c.id === car.id);
-    const newCars = [...cars];
-    newCars[carIndex] = car;
-    setCars(newCars);
+  const replaceItem: ReplaceItem<T> = (item) => {
+    const itemIndex = items.findIndex(c => c.id === item.id);
+    const newItems = [...items];
+    newItems[itemIndex] = item;
+    setItems(newItems);
   }; 
 
-  const removeCar = (carId: number) => {
-    setCars(cars.filter(c => c.id !== carId));
+  const removeItem: RemoveItem = (itemId) => {
+    setItems(items.filter(c => c.id !== itemId));
   };
 
-  return [ cars, appendCar, replaceCar, removeCar ];
+  return [ items, appendItem, replaceItem, removeItem ];
 
 };

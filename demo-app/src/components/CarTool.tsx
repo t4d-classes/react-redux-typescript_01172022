@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Car, NewCar, CarsSort, CarKeys, ORDER_ASC, ORDER_DESC } from '../models/cars';
-
+import { useCarList } from '../hooks/useCarList';
 import { ToolHeader } from './ToolHeader';
 import { CarTable } from './CarTable';
 import { CarForm } from './CarForm';
@@ -12,7 +12,7 @@ export type CarToolProps = {
 
 export const CarTool = (props: CarToolProps) => {
 
-  const [ cars, setCars ] = useState([ ...props.cars ]);
+  const [ cars, appendCar, replaceCar, removeCar ] = useCarList([ ...props.cars ]);
   const [ carsSort, setCarsSort ] = useState<CarsSort>({
     col: 'id',
     dir: ORDER_ASC,
@@ -20,24 +20,12 @@ export const CarTool = (props: CarToolProps) => {
   const [editCarId, setEditCarId ] = useState(-1);
 
   const addCar = (car: NewCar) => {
-    setCars([
-      ...cars,
-      {
-        ...car,
-        id: Math.max(...cars.map(c => c.id), 0) + 1,
-      },
-    ]);
+    appendCar(car);
     setEditCarId(-1);
   };
 
   const deleteCar = (carId: number) => {
-
-    // const carIndex = cars.findIndex(c => c.id === carId);
-    // cars.splice(carIndex, 1);
-    // setCars(cars);
-    // console.log(cars);
-
-    setCars(cars.filter(c => c.id !== carId));
+    removeCar(carId);
     setEditCarId(-1);
   }
 
@@ -77,10 +65,7 @@ export const CarTool = (props: CarToolProps) => {
   };
 
   const saveCar = (car: Car) => {
-    const carIndex = cars.findIndex(c => c.id === car.id);
-    const newCars = [...cars];
-    newCars[carIndex] = car;
-    setCars(newCars);
+    replaceCar(car);
     setEditCarId(-1);
   }
 

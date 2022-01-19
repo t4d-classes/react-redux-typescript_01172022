@@ -1,19 +1,12 @@
-import { useState } from 'react';
 
-import { Car, NewCar, CarsSort, CarKeys, ORDER_ASC, ORDER_DESC } from '../models/cars';
-import { useCarList } from '../hooks/useCarList';
 
-import { useCarToolStore } from '../hooks/useCarToolStore';
+import { useCarToolStoreConsumer } from '../contexts/carToolStoreContext';
 
 import { ToolHeader } from './ToolHeader';
 import { CarTable } from './CarTable';
 import { CarForm } from './CarForm';
 
-export type CarToolProps = {
-  cars: Car[];
-}
-
-export const CarTool = (props: CarToolProps) => {
+export const CarTool = () => {
 
   const {
     cars,
@@ -25,7 +18,7 @@ export const CarTool = (props: CarToolProps) => {
     editCar,
     cancelCar,
     sortCars,    
-  } = useCarToolStore([ ...props.cars ]);
+  } = useCarToolStoreConsumer();
 
   return (
     <>

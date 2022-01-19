@@ -29,16 +29,3 @@ export const useForm: UseForm = (initialFormData) => {
 
 };
 
-
-const doIt = () => {
-
-  const T = 2;
-
-  doIt2(T);
-
-}
-
-const doIt2 = (S) => {
-
-  S // is whatever type is passed
-}

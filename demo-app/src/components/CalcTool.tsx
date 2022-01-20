@@ -4,7 +4,7 @@ import { useCalcToolStore } from '../hooks/useCalcToolStore';
 
 export const CalcTool = () => {
 
-  const { result, add, subtract } = useCalcToolStore();
+  const { result, history, add, subtract, multiply, divide } = useCalcToolStore();
 
   const [ numInput, setNumInput ] = useState(0);
 
@@ -21,8 +21,16 @@ export const CalcTool = () => {
         <fieldset>
           <button type="button" onClick={() => add(numInput)}>+</button>
           <button type="button" onClick={() => subtract(numInput)}>-</button>
+          <button type="button" onClick={() => multiply(numInput)}>*</button>
+          <button type="button" onClick={() => divide(numInput)}>/</button>
         </fieldset>
       </form>
+
+      <ul>
+        {history.map(entry => <li key={entry.id}>
+          {entry.opName} {entry.opValue}
+        </li>)}
+      </ul>
     </>
   )
 

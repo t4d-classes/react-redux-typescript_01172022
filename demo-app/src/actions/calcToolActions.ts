@@ -3,12 +3,24 @@ import { Action } from 'redux';
 
 export const ADD_ACTION = 'ADD';
 export const SUBTRACT_ACTION = 'SUBTRACT';
+export const MULTIPLY_ACTION = 'MULTIPLY';
+export const DIVIDE_ACTION = 'DIVIDE';
 
-export interface AddAction extends Action<typeof ADD_ACTION> {
+export interface MathAction<T = ""> extends Action<T> {
   payload: {
     num: number;
   }
 }
+
+export function isMathAction(action: any): action is MathAction {
+  return ([
+    ADD_ACTION,
+    SUBTRACT_ACTION,
+    MULTIPLY_ACTION,
+    DIVIDE_ACTION ].includes(action.type));
+}
+
+export interface AddAction extends MathAction<typeof ADD_ACTION> { }
 
 export type CreateAddAction = (value: number) => AddAction;
 
@@ -21,11 +33,7 @@ export const createAddAction: CreateAddAction = (value) => ({
   payload: { num: value },
 });
 
-export interface SubtractAction extends Action<typeof SUBTRACT_ACTION> {
-  payload: {
-    num: number;
-  }
-}
+export interface SubtractAction extends MathAction<typeof SUBTRACT_ACTION> { }
 
 export type CreateSubtractAction = (value: number) => SubtractAction;
 
@@ -35,5 +43,31 @@ export function isSubtractAction(action: any): action is SubtractAction {
 
 export const createSubtractAction: CreateSubtractAction = (value) => ({
   type: SUBTRACT_ACTION,
+  payload: { num: value },
+});
+
+export interface MultiplyAction extends MathAction<typeof MULTIPLY_ACTION> { }
+
+export type CreateMultiplyAction = (value: number) => MultiplyAction;
+
+export function isMultiplyAction(action: any): action is MultiplyAction {
+  return action?.type === MULTIPLY_ACTION;
+}
+
+export const createMultiplyAction: CreateMultiplyAction = (value) => ({
+  type: MULTIPLY_ACTION,
+  payload: { num: value },
+});
+
+export interface DivideAction extends MathAction<typeof DIVIDE_ACTION> { }
+
+export type CreateDivideAction = (value: number) => DivideAction;
+
+export function isDivideAction(action: any): action is DivideAction {
+  return action?.type === DIVIDE_ACTION;
+}
+
+export const createDivideAction: CreateDivideAction = (value) => ({
+  type: DIVIDE_ACTION,
   payload: { num: value },
 });

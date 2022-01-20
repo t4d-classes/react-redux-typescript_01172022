@@ -1,20 +1,29 @@
 import { bindActionCreators } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { CalcToolState } from '../models/calcToolStore';
-import { createAddAction, createSubtractAction } from '../actions/calcToolActions';
+import { CalcToolState, CalcToolStore } from '../models/calcToolStore';
+import { 
+  createAddAction, createSubtractAction,
+  createMultiplyAction, createDivideAction } from '../actions/calcToolActions';
+import { HistoryEntry } from '../models/history';
 
-export const useCalcToolStore = () => {
+export type UseCalcToolStore = () => CalcToolStore;
+
+export const useCalcToolStore: UseCalcToolStore = () => {
 
   const result = useSelector<CalcToolState, number>(state => state.result);
+  const history = useSelector<CalcToolState, HistoryEntry[]>(state => state.history);
 
   const boundActions = bindActionCreators({
     add: createAddAction,
-    subtract: createSubtractAction
+    subtract: createSubtractAction,
+    multiply: createMultiplyAction,
+    divide: createDivideAction,
   }, useDispatch());
 
   return {
     result,
+    history,
     ...boundActions,
   };
 

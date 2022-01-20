@@ -7,6 +7,8 @@ export const MULTIPLY_ACTION = 'MULTIPLY';
 export const DIVIDE_ACTION = 'DIVIDE';
 export const CLEAR_ACTION = 'CLEAR';
 export const DELETE_HISTORY_ENTRY_ACTION = 'DELETE_HISTORY_ENTRY';
+export const NO_OP_ACTION = 'NO_OP';
+export const ERROR_MESSAGE_ACTION = 'ERROR_MESSAGE';
 
 export type MathActions =
   | typeof ADD_ACTION
@@ -109,5 +111,37 @@ export const createDeleteHistoryEntryAction: CreateDeleteHistoryEntryAction = (h
   type: DELETE_HISTORY_ENTRY_ACTION,
   payload: {
     historyEntryId,
+  }
+});
+
+export interface NoOpAction extends Action<typeof NO_OP_ACTION> {
+}
+
+export type CreateNoOpAction = () => NoOpAction;
+
+export function isNoOpAction(action: any): action is NoOpAction {
+  return action?.type === NO_OP_ACTION;
+}
+
+export const createNoOpAction: CreateNoOpAction = () => ({
+  type: NO_OP_ACTION,
+});
+
+export interface ErrorMessageAction extends Action<typeof ERROR_MESSAGE_ACTION> {
+  payload: {
+    errorMessage: string,
+  }
+}
+
+export type CreateErrorMessageAction = (errorMessae: string) => ErrorMessageAction;
+
+export function isErrorMessageAction(action: any): action is ErrorMessageAction {
+  return action?.type === ERROR_MESSAGE_ACTION;
+}
+
+export const createErrorMessageAction: CreateErrorMessageAction = (errorMessage: string) => ({
+  type: ERROR_MESSAGE_ACTION,
+  payload: {
+    errorMessage,
   }
 });

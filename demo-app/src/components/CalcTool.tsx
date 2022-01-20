@@ -1,15 +1,24 @@
 import { useState } from 'react';
 
-import { useCalcToolStore } from '../hooks/useCalcToolStore';
+import { useCalcTool } from '../hooks/useCalcTool';
 
 export const CalcTool = () => {
 
   const {
     result, history, errorMessage,
     add, subtract, multiply, divide,
-    clear, deleteHistoryEntry } = useCalcToolStore();
+    clear, deleteHistoryEntry , noOp,
+    setErrorMessage } = useCalcTool();
 
   const [ numInput, setNumInput ] = useState(0);
+
+  const doDivide = () => {
+    if (numInput === 0) {
+      setErrorMessage("Cannot divide by zero.")
+    } else {
+      divide(numInput)
+    }
+  }
 
   const doClear = () => {
     setNumInput(0);
@@ -31,8 +40,9 @@ export const CalcTool = () => {
           <button type="button" onClick={() => add(numInput)}>+</button>
           <button type="button" onClick={() => subtract(numInput)}>-</button>
           <button type="button" onClick={() => multiply(numInput)}>*</button>
-          <button type="button" onClick={() => divide(numInput)}>/</button>
+          <button type="button" onClick={doDivide}>/</button>
           <button type="button" onClick={doClear}>Clear</button>
+          <button type="button" onClick={noOp}>No Op</button>
         </fieldset>
       </form>
 

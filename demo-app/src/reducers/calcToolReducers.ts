@@ -2,43 +2,43 @@ import { Reducer, AnyAction, combineReducers } from 'redux';
 
 import {
   isAddAction, isSubtractAction, isMultiplyAction, isDivideAction,
-  isMathAction, isClearAction, isDeleteHistoryEntryAction, DIVIDE_ACTION
+  isMathAction, isClearAction, isDeleteHistoryEntryAction, DIVIDE_ACTION, isNoOpAction, isErrorMessageAction
 } from '../actions/calcToolActions';
 import { CalcToolState } from '../models/calcToolStore';
 import { HistoryEntry } from '../models/history';
 
 
-export const resultReducer: Reducer<number, AnyAction> = (
-  result = 0, action) => {
+// export const resultReducer: Reducer<number, AnyAction> = (
+//   result = 0, action) => {
 
-    if (isClearAction(action)) {
-      return 0;
-    }
+//     if (isClearAction(action)) {
+//       return 0;
+//     }
   
-    if (isAddAction(action)) {
-      return result + action.payload.num;
-    }
+//     if (isAddAction(action)) {
+//       return result + action.payload.num;
+//     }
 
-    if (isSubtractAction(action)) {
-      return result - action.payload.num;
-    }
+//     if (isSubtractAction(action)) {
+//       return result - action.payload.num;
+//     }
 
-    if (isMultiplyAction(action)) {
-      return result * action.payload.num;
-    }
+//     if (isMultiplyAction(action)) {
+//       return result * action.payload.num;
+//     }
 
-    if (isDivideAction(action)) {
+//     if (isDivideAction(action)) {
 
-      if (action.payload.num === 0) {
-        return result;
-      }
+//       if (action.payload.num === 0) {
+//         return result;
+//       }
 
-      return result / action.payload.num;
-    }
+//       return result / action.payload.num;
+//     }
 
-    return result;
+//     return result;
 
-  };
+//   };
 
   export const historyReducer: Reducer<HistoryEntry[], AnyAction> = (
     history = [], action) => {
@@ -73,8 +73,12 @@ export const resultReducer: Reducer<number, AnyAction> = (
   export const errorMessageReducer: Reducer<string, AnyAction> = (
     errorMessage = "", action) => {
 
-    if (isDivideAction(action) && action.payload.num === 0) {
-      return "Cannot divide by zero.";
+    if (isErrorMessageAction(action)) {
+      return action.payload.errorMessage;
+    }
+
+    if (isNoOpAction(action)) {
+      return errorMessage + "!";
     }
 
     return "";
@@ -83,7 +87,7 @@ export const resultReducer: Reducer<number, AnyAction> = (
   export const calcToolReducer: Reducer<
     CalcToolState, AnyAction
   > = combineReducers({
-    result: resultReducer,
+    // result: resultReducer,
     history: historyReducer,
     errorMessage: errorMessageReducer,
   });

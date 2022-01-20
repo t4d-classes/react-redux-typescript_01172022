@@ -10,6 +10,8 @@ export type CalcToolActions = {
   subtract: (value: number) => void;
   multiply: (value: number) => void;
   divide: (value: number) => void;
+  clear: () => void;
+  deleteHistoryEntry: (historyEntryId: number) => void;
 }
 
 export type CalcToolStore = CalcToolState & CalcToolActions;

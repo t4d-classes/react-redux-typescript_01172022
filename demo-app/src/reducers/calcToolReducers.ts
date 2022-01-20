@@ -1,7 +1,8 @@
 import { Reducer, AnyAction, combineReducers } from 'redux';
 
 import {
-  isAddAction, isSubtractAction, isMultiplyAction, isDivideAction, isMathAction
+  isAddAction, isSubtractAction, isMultiplyAction, isDivideAction,
+  isMathAction, isClearAction, isDeleteHistoryEntryAction
 } from '../actions/calcToolActions';
 import { CalcToolState } from '../models/calcToolStore';
 import { HistoryEntry } from '../models/history';
@@ -9,6 +10,10 @@ import { HistoryEntry } from '../models/history';
 
 export const resultReducer: Reducer<number, AnyAction> = (
   result = 0, action) => {
+
+    if (isClearAction(action)) {
+      return 0;
+    }
   
     if (isAddAction(action)) {
       return result + action.payload.num;
@@ -32,6 +37,14 @@ export const resultReducer: Reducer<number, AnyAction> = (
 
   export const historyReducer: Reducer<HistoryEntry[], AnyAction> = (
     history = [], action) => {
+
+      if (isDeleteHistoryEntryAction(action)) {
+        return history.filter(entry => entry.id !== action.payload.historyEntryId);
+      }
+
+      if (isClearAction(action)) {
+        return [];
+      }
 
       if (isMathAction(action)) {
 

@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CalcToolState, CalcToolStore } from '../models/calcToolStore';
 import { 
   createAddAction, createSubtractAction,
-  createMultiplyAction, createDivideAction } from '../actions/calcToolActions';
+  createMultiplyAction, createDivideAction,
+  createClearAction, createDeleteHistoryEntryAction } from '../actions/calcToolActions';
 import { HistoryEntry } from '../models/history';
 
 export type UseCalcToolStore = () => CalcToolStore;
@@ -19,6 +20,8 @@ export const useCalcToolStore: UseCalcToolStore = () => {
     subtract: createSubtractAction,
     multiply: createMultiplyAction,
     divide: createDivideAction,
+    clear: createClearAction,
+    deleteHistoryEntry: createDeleteHistoryEntryAction,
   }, useDispatch());
 
   return {

@@ -2,7 +2,7 @@ import { Reducer, AnyAction, combineReducers } from 'redux';
 
 import {
   isAddAction, isSubtractAction, isMultiplyAction, isDivideAction,
-  isMathAction, isClearAction, isDeleteHistoryEntryAction
+  isMathAction, isClearAction, isDeleteHistoryEntryAction, DIVIDE_ACTION
 } from '../actions/calcToolActions';
 import { CalcToolState } from '../models/calcToolStore';
 import { HistoryEntry } from '../models/history';
@@ -28,6 +28,11 @@ export const resultReducer: Reducer<number, AnyAction> = (
     }
 
     if (isDivideAction(action)) {
+
+      if (action.payload.num === 0) {
+        return result;
+      }
+
       return result / action.payload.num;
     }
 
@@ -48,6 +53,10 @@ export const resultReducer: Reducer<number, AnyAction> = (
 
       if (isMathAction(action)) {
 
+          if (isDivideAction(action) && action.payload.num === 0) {
+            return history;
+          }
+
           return [
             ...history,
             {
@@ -61,11 +70,22 @@ export const resultReducer: Reducer<number, AnyAction> = (
       return history;
     };
 
+  export const errorMessageReducer: Reducer<string, AnyAction> = (
+    errorMessage = "", action) => {
+
+    if (isDivideAction(action) && action.payload.num === 0) {
+      return "Cannot divide by zero.";
+    }
+
+    return "";
+  }
+
   export const calcToolReducer: Reducer<
     CalcToolState, AnyAction
   > = combineReducers({
     result: resultReducer,
-    history: historyReducer
+    history: historyReducer,
+    errorMessage: errorMessageReducer,
   });
 
 //  export const calcToolReducer = function(state:CalcToolState, action: AnyAction) {

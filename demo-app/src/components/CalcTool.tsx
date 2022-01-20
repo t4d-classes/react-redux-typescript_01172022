@@ -5,7 +5,7 @@ import { useCalcToolStore } from '../hooks/useCalcToolStore';
 export const CalcTool = () => {
 
   const {
-    result, history,
+    result, history, errorMessage,
     add, subtract, multiply, divide,
     clear, deleteHistoryEntry } = useCalcToolStore();
 
@@ -18,6 +18,7 @@ export const CalcTool = () => {
 
   return (
     <>
+      {errorMessage && <p>{errorMessage}</p>}
       <div>Result: {result}</div>
       <form>
         <label>

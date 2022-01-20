@@ -8,7 +8,13 @@ export const DIVIDE_ACTION = 'DIVIDE';
 export const CLEAR_ACTION = 'CLEAR';
 export const DELETE_HISTORY_ENTRY_ACTION = 'DELETE_HISTORY_ENTRY';
 
-export interface MathAction<T = ""> extends Action<T> {
+export type MathActions =
+  | typeof ADD_ACTION
+  | typeof SUBTRACT_ACTION
+  | typeof MULTIPLY_ACTION
+  | typeof DIVIDE_ACTION;
+
+export interface MathAction<T = MathActions> extends Action<T> {
   payload: {
     num: number;
   }

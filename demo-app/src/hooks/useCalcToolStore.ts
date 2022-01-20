@@ -14,6 +14,7 @@ export const useCalcToolStore: UseCalcToolStore = () => {
 
   const result = useSelector<CalcToolState, number>(state => state.result);
   const history = useSelector<CalcToolState, HistoryEntry[]>(state => state.history);
+  const errorMessage = useSelector<CalcToolState, string>(state => state.errorMessage);
 
   const boundActions = bindActionCreators({
     add: createAddAction,
@@ -27,6 +28,7 @@ export const useCalcToolStore: UseCalcToolStore = () => {
   return {
     result,
     history,
+    errorMessage,
     ...boundActions,
   };
 

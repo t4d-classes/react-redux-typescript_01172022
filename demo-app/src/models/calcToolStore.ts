@@ -3,6 +3,7 @@ import { HistoryEntry } from './history';
 export type CalcToolState = {
   result: number;
   history: HistoryEntry[];
+  errorMessage: string;
 };
 
 export type CalcToolActions = {

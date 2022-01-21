@@ -29,7 +29,7 @@ describe('CarViewRow testing library', () => {
     );
   });
 
-  test('render CarViewRow component', () => {
+  test('render CarForm component', () => {
     const { getAllByRole } = renderResult;
 
     const textboxInputs = getAllByRole('textbox');

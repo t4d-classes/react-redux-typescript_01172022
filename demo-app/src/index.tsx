@@ -18,12 +18,12 @@ render(
     {/* <Provider store={calcToolStore}>
       <CalcTool />
     </Provider> */}
-    <Provider store={colorToolStore}>
+    {/* <Provider store={colorToolStore}>
       <ColorTool />
-    </Provider>
-    {/* <Provider store={carToolStore}>
-      <CarTool />
     </Provider> */}
+    <Provider store={carToolStore}>
+      <CarTool />
+    </Provider>
   </>,
   document.querySelector('#root'),
 );

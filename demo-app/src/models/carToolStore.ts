@@ -1,3 +1,4 @@
+import { Dispatch, AnyAction } from 'redux';
 import { Car, NewCar, CarsSort, CarKeys } from './cars';
 
 export type CarToolState = {
@@ -10,9 +11,14 @@ export type CarToolProps = {
   cars: Car[];
   editCarId: number;
   carsSort: CarsSort;
-  addCar: (car: NewCar) => void;
-  saveCar: (car: Car) => void;
-  deleteCar: (carId: number) => void;
+  refreshCars: () => (dispatch: Dispatch<AnyAction>) =>
+  Promise<void>;
+  addCar: (car: NewCar) => (dispatch: Dispatch<AnyAction>) =>
+  Promise<void>;
+  saveCar: (car: Car) => (dispatch: Dispatch<AnyAction>) =>
+  Promise<void>;
+  deleteCar: (carId: number) => (dispatch: Dispatch<AnyAction>) =>
+  Promise<void>;
   editCar: (carId: number) => void;
   cancelCar: () => void;
   sortCars: (col: CarKeys) => void;

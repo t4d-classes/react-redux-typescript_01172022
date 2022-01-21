@@ -1,30 +1,72 @@
-import { Action, AnyAction } from 'redux';
+import { Action, AnyAction, Dispatch } from 'redux';
 
 import { Car, NewCar, CarKeys } from '../models/cars';
 
-export const APPEND_CAR_ACTION = 'APPEND_CAR';
-export const REPLACE_CAR_ACTION = 'REPLACE_CAR';
-export const REMOVE_CAR_ACTION = 'REMOVE_CAR';
+export const REFRESH_COLORS_REQUEST_ACTION = 'REFRESH_COLORS_REQUEST';
+export const REFRESH_COLORS_DONE_ACTION = 'REFRESH_COLORS_DONE';
+export const APPEND_CAR_REQUEST_ACTION = 'APPEND_CAR_REQUEST';
+export const REPLACE_CAR_REQUEST_ACTION = 'REPLACE_CAR_REQUEST';
+export const REMOVE_CAR_REQUEST_ACTION = 'REMOVE_CAR_REQUEST';
 export const EDIT_CAR_ACTION = 'EDIT_CAR';
 export const CANCEL_CAR_ACTION = 'CANCEL_CAR';
 export const SORT_CARS_ACTION = 'SORT_CARS';
 
+export interface RefreshCarsRequestAction
+  extends Action<typeof REFRESH_COLORS_REQUEST_ACTION> {
+}
+
+export type CreateRefreshCarsRequestAction = () => RefreshCarsRequestAction;
+
+export function isRefreshCarsRequestAction(
+  action: any,
+): action is RefreshCarsRequestAction {
+  return action?.type === REFRESH_COLORS_REQUEST_ACTION;
+}
+
+export const createRefreshCarsRequestAction: CreateRefreshCarsRequestAction = () =>
+({
+  type: REFRESH_COLORS_REQUEST_ACTION,
+});
+
+export interface RefreshCarsDoneAction
+  extends Action<typeof REFRESH_COLORS_DONE_ACTION> {
+    payload: {
+      cars: Car[]
+    }
+}
+
+export type CreateRefreshCarsDoneAction = (cars: Car[]) => RefreshCarsDoneAction;
+
+export function isRefreshCarsDoneAction(
+  action: any,
+): action is RefreshCarsDoneAction {
+  return action?.type === REFRESH_COLORS_DONE_ACTION;
+}
+
+export const createRefreshCarsDoneAction: CreateRefreshCarsDoneAction = (cars) =>
+({
+  type: REFRESH_COLORS_DONE_ACTION,
+  payload: {
+    cars,
+  }
+});
+
 // New Car Action
 
-export interface AppendCarAction extends Action<typeof APPEND_CAR_ACTION> {
+export interface AppendCarRequestAction extends Action<typeof APPEND_CAR_REQUEST_ACTION> {
   payload: { car: NewCar };
 }
 
-export type CreateAppendCarAction = (car: NewCar) => AppendCarAction;
+export type CreateAppendCarRequestAction = (car: NewCar) => AppendCarRequestAction;
 
-export function isAppendCarAction(
+export function isAppendCarRequestAction(
   action: AnyAction,
-): action is AppendCarAction {
-  return action?.type === APPEND_CAR_ACTION;
+): action is AppendCarRequestAction {
+  return action?.type === APPEND_CAR_REQUEST_ACTION;
 }
 
-export const createAppendCarAction: CreateAppendCarAction = (car) => ({
-  type: APPEND_CAR_ACTION,
+export const createAppendCarRequestAction: CreateAppendCarRequestAction = (car) => ({
+  type: APPEND_CAR_REQUEST_ACTION,
   payload: { car },
 });
 
@@ -32,20 +74,20 @@ export const createAppendCarAction: CreateAppendCarAction = (car) => ({
 
 // Existing Car Action
 
-export interface ReplaceCarAction extends Action<typeof REPLACE_CAR_ACTION> {
+export interface ReplaceCarRequestAction extends Action<typeof REPLACE_CAR_REQUEST_ACTION> {
   payload: { car: Car };
 }
 
-export type CreateReplaceCarAction = (car: Car) => ReplaceCarAction;
+export type CreateReplaceCarRequestAction = (car: Car) => ReplaceCarRequestAction;
 
-export function isReplaceCarAction(
+export function isReplaceCarRequestAction(
   action: AnyAction,
-): action is ReplaceCarAction {
-  return action?.type === REPLACE_CAR_ACTION;
+): action is ReplaceCarRequestAction {
+  return action?.type === REPLACE_CAR_REQUEST_ACTION;
 }
 
-export const createReplaceCarAction: CreateReplaceCarAction = (car) => ({
-  type: REPLACE_CAR_ACTION,
+export const createReplaceCarRequestAction: CreateReplaceCarRequestAction = (car) => ({
+  type: REPLACE_CAR_REQUEST_ACTION,
   payload: { car },
 });
 
@@ -53,20 +95,20 @@ export const createReplaceCarAction: CreateReplaceCarAction = (car) => ({
 
 // Remove Car Action
 
-export interface RemoveCarAction extends Action<typeof REMOVE_CAR_ACTION> {
+export interface RemoveCarRequestAction extends Action<typeof REMOVE_CAR_REQUEST_ACTION> {
   payload: { carId: number };
 }
 
-export type CreateRemoveCarAction = (carId: number) => RemoveCarAction;
+export type CreateRemoveCarRequestAction = (carId: number) => RemoveCarRequestAction;
 
-export function isRemoveCarAction(
+export function isRemoveCarRequestAction(
   action: AnyAction,
-): action is RemoveCarAction {
-  return action.type === REMOVE_CAR_ACTION;
+): action is RemoveCarRequestAction {
+  return action.type === REMOVE_CAR_REQUEST_ACTION;
 }
 
-export const createRemoveCarAction: CreateRemoveCarAction = (carId) => ({
-  type: REMOVE_CAR_ACTION,
+export const createRemoveCarRequestAction: CreateRemoveCarRequestAction = (carId) => ({
+  type: REMOVE_CAR_REQUEST_ACTION,
   payload: { carId },
 });
 
@@ -127,3 +169,62 @@ export const createSortCarsAction: CreateSortCarsAction = (col: CarKeys) => ({
 });
 
 // End Sort Cars Action
+
+export const refreshCars = () => {
+
+  return async (dispatch: Dispatch) => {
+
+    // orchestrate multiple actions
+    dispatch(createRefreshCarsRequestAction());
+    const res = await fetch('http://localhost:3060/cars');
+    const cars = await res.json();
+    dispatch(createRefreshCarsDoneAction(cars));
+  };
+
+};
+
+export const appendCar = (newCar: NewCar) => {
+
+  return async (dispatch: Dispatch) => {
+
+    dispatch(createAppendCarRequestAction(newCar));
+    await fetch('http://localhost:3060/cars', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newCar),
+    });
+    refreshCars()(dispatch);
+
+  };
+
+};
+
+export const replaceCar = (car: Car) => {
+
+  return async (dispatch: Dispatch) => {
+
+    dispatch(createReplaceCarRequestAction(car));
+    await fetch('http://localhost:3060/cars/' + encodeURIComponent(car.id), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(car),
+    });
+    refreshCars()(dispatch);
+
+  };
+
+};
+
+export const removeCar = (carId: number) => {
+
+  return async (dispatch: Dispatch) => {
+
+    dispatch(createRemoveCarRequestAction(carId));
+    await fetch('http://localhost:3060/cars/' + encodeURIComponent(carId), {
+      method: 'DELETE',
+    });
+    refreshCars()(dispatch);
+
+  };
+
+};

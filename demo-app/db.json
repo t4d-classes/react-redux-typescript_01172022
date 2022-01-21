@@ -24,6 +24,11 @@
       "name": "s",
       "hexcode": "s",
       "id": 5
+    },
+    {
+      "name": "g",
+      "hexcode": "g",
+      "id": 6
     }
   ],
   "cars": [

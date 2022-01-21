@@ -5,9 +5,9 @@ import { useList } from './useList';
 import { CarToolProps } from '../models/carToolStore';
 
 
-type UseCarToolStore = (initialCars: Car[]) => CarToolProps;
+// type UseCarToolStore = (initialCars: Car[]) => CarToolProps;
 
-export const useCarToolStore: UseCarToolStore = (initialCars) => {
+export const useCarToolStore = (initialCars: Car[]) => {
 
   const [ cars, appendCar, replaceCar, removeCar ] = useList([ ...initialCars ]);
   const [ carsSort, setCarsSort ] = useState<CarsSort>({

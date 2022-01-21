@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import { Car, NewCar, CarsSort, CarKeys, ORDER_ASC, ORDER_DESC } from '../models/cars';
 import { useList } from './useList';
-import { CarToolStore } from '../models/carToolStore';
+import { CarToolProps } from '../models/carToolStore';
 
 
-type UseCarToolStore = (initialCars: Car[]) => CarToolStore;
+type UseCarToolStore = (initialCars: Car[]) => CarToolProps;
 
 export const useCarToolStore: UseCarToolStore = (initialCars) => {
 

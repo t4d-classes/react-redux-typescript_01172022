@@ -1,6 +1,6 @@
 import { createContext, useContext, FC } from "react";
 
-import { CarToolStore } from "../models/carToolStore";
+import { CarToolState } from "../models/carToolStore";
 import { Car } from '../models/cars';
 import { useCarToolStore } from "../hooks/useCarToolStore";
 
@@ -10,7 +10,7 @@ const carList: Car[] = [
   { id: 2, make: 'Tesla', model: 'S', year: 2019, color: 'blue', price: 120000 },
 ];
 
-const carToolStoreContext = createContext({} as CarToolStore);
+const carToolStoreContext = createContext({} as CarToolState);
 
 
 export const CarToolStoreProvider: FC = ({ children }) => {

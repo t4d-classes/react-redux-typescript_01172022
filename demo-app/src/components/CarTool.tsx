@@ -1,6 +1,4 @@
-
-
-import { useCarToolStoreConsumer } from '../contexts/carToolStoreContext';
+import { useCarTool } from '../hooks/useCarTool';
 
 import { ToolHeader } from './ToolHeader';
 import { CarTable } from './CarTable';
@@ -18,7 +16,7 @@ export const CarTool = () => {
     editCar,
     cancelCar,
     sortCars,    
-  } = useCarToolStoreConsumer();
+  } = useCarTool();
 
   return (
     <>

@@ -6,7 +6,10 @@ export type CarToolState = {
   carsSort: CarsSort;
 };
 
-export type CarToolActions = {
+export type CarToolProps = {
+  cars: Car[];
+  editCarId: number;
+  carsSort: CarsSort;
   addCar: (car: NewCar) => void;
   saveCar: (car: Car) => void;
   deleteCar: (carId: number) => void;
@@ -14,5 +17,3 @@ export type CarToolActions = {
   cancelCar: () => void;
   sortCars: (col: CarKeys) => void;
 };
-
-export type CarToolStore = CarToolState & CarToolActions;

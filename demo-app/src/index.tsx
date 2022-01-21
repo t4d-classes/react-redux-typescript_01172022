@@ -13,17 +13,17 @@ import { carToolStore } from './stores/carToolStore';
 
 import "./index.css";
 
-render(
-  <>
-    {/* <Provider store={calcToolStore}>
-      <CalcTool />
-    </Provider> */}
-    <Provider store={colorToolStore}>
-      <ColorTool />
-    </Provider>
-    <Provider store={carToolStore}>
-      <CarTool />
-    </Provider>
-  </>,
-  document.querySelector('#root'),
-);
+// render(
+//   <>
+//     {/* <Provider store={calcToolStore}>
+//       <CalcTool />
+//     </Provider> */}
+//     <Provider store={colorToolStore}>
+//       <ColorTool />
+//     </Provider>
+//     <Provider store={carToolStore}>
+//       <CarTool />
+//     </Provider>
+//   </>,
+//   document.querySelector('#root'),
+// );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 
-import { NewCar, NewCarKeys } from '../models/car';
+import { NewCar, NewCarKeys } from '../models/cars';
 import { CarForm } from '../components/CarForm';
 
 describe('CarViewRow testing library', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, RenderResult, fireEvent } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
-import { Car, CarKeys } from '../models/car';
+import { Car, CarKeys } from '../models/cars';
 import { CarViewRow } from '../components/CarViewRow';
 
 test('snapshot CarViewRow component', () => {

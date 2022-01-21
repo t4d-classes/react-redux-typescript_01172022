@@ -1,27 +1,15 @@
 import { Reducer, AnyAction, combineReducers } from 'redux';
 
 import { Color } from '../models/colors';
-import { isAppendColorAction } from '../actions/colorToolActions';
-
-const initialColors: Color[] = [
-  { id: 1, name: 'pink', hexcode: 'ffc0cb' },
-  { id: 2, name: 'blue', hexcode: '0000ff' },
-  { id: 3, name: 'purple', hexcode: '800080' },
-  { id: 4, name: 'cyan', hexcode: '00ffff' },
-];
+import { isRefreshColorsDoneAction } from '../actions/colorToolActions';
 
 export const colorsReducer: Reducer<Color[], AnyAction> = (
-  colors = initialColors,
+  colors = [],
   action,
 ) => {
-  if (isAppendColorAction(action)) {
-    return [
-      ...colors,
-      {
-        ...action.payload.newColor,
-        id: Math.max(...colors.map((c) => c.id), 0) + 1,
-      },
-    ];
+  
+  if (isRefreshColorsDoneAction(action)) {
+    return action.payload.colors;
   }
 
   return colors;

@@ -1,3 +1,4 @@
+import { Dispatch, AnyAction } from 'redux';
 import { Color, NewColor } from './colors';
 
 export type ColorToolState = {
@@ -6,5 +7,9 @@ export type ColorToolState = {
 
 export type ColorToolProps = {
   colors: Color[];
-  addColor: (color: NewColor) => void;
+  refreshColors: () => (dispatch: Dispatch<AnyAction>) =>
+    Promise<void>;
+  addColor: (newColor: NewColor) =>
+    (dispatch: Dispatch<AnyAction>) =>
+      Promise<void>;
 };

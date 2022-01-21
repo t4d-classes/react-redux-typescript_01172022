@@ -81,7 +81,7 @@ export const refreshColors = () => {
 
 };
 
-export const appendColor = (newColor: Color) => {
+export const appendColor = (newColor: NewColor) => {
 
   return async (dispatch: Dispatch) => {
 

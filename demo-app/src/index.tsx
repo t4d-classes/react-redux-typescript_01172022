@@ -1,29 +1,11 @@
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
 
-// import { CalcTool } from './components/CalcTool';
-// import { calcToolStore } from './stores/calcToolStore';
-
-import { ColorTool } from './components/ColorTool';
-import { colorToolStore } from './stores/colorToolStore';
-
-import { CarTool } from './components/CarTool';
-import { carToolStore } from './stores/carToolStore';
-
-
-import "./index.css";
+import { BrowserRouter } from 'react-router-dom';
+import { App } from './App';
 
 render(
-  <>
-    {/* <Provider store={calcToolStore}>
-      <CalcTool />
-    </Provider> */}
-    {/* <Provider store={colorToolStore}>
-      <ColorTool />
-    </Provider> */}
-    <Provider store={carToolStore}>
-      <CarTool />
-    </Provider>
-  </>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
   document.querySelector('#root'),
 );

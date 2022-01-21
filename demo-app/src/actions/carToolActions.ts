@@ -2,8 +2,8 @@ import { Action, AnyAction, Dispatch } from 'redux';
 
 import { Car, NewCar, CarKeys } from '../models/cars';
 
-export const REFRESH_COLORS_REQUEST_ACTION = 'REFRESH_COLORS_REQUEST';
-export const REFRESH_COLORS_DONE_ACTION = 'REFRESH_COLORS_DONE';
+export const REFRESH_CARS_REQUEST_ACTION = 'REFRESH_CARS_REQUEST';
+export const REFRESH_CARS_DONE_ACTION = 'REFRESH_CARS_DONE';
 export const APPEND_CAR_REQUEST_ACTION = 'APPEND_CAR_REQUEST';
 export const REPLACE_CAR_REQUEST_ACTION = 'REPLACE_CAR_REQUEST';
 export const REMOVE_CAR_REQUEST_ACTION = 'REMOVE_CAR_REQUEST';
@@ -12,7 +12,7 @@ export const CANCEL_CAR_ACTION = 'CANCEL_CAR';
 export const SORT_CARS_ACTION = 'SORT_CARS';
 
 export interface RefreshCarsRequestAction
-  extends Action<typeof REFRESH_COLORS_REQUEST_ACTION> {
+  extends Action<typeof REFRESH_CARS_REQUEST_ACTION> {
 }
 
 export type CreateRefreshCarsRequestAction = () => RefreshCarsRequestAction;
@@ -20,16 +20,16 @@ export type CreateRefreshCarsRequestAction = () => RefreshCarsRequestAction;
 export function isRefreshCarsRequestAction(
   action: any,
 ): action is RefreshCarsRequestAction {
-  return action?.type === REFRESH_COLORS_REQUEST_ACTION;
+  return action?.type === REFRESH_CARS_REQUEST_ACTION;
 }
 
 export const createRefreshCarsRequestAction: CreateRefreshCarsRequestAction = () =>
 ({
-  type: REFRESH_COLORS_REQUEST_ACTION,
+  type: REFRESH_CARS_REQUEST_ACTION,
 });
 
 export interface RefreshCarsDoneAction
-  extends Action<typeof REFRESH_COLORS_DONE_ACTION> {
+  extends Action<typeof REFRESH_CARS_DONE_ACTION> {
     payload: {
       cars: Car[]
     }
@@ -40,12 +40,12 @@ export type CreateRefreshCarsDoneAction = (cars: Car[]) => RefreshCarsDoneAction
 export function isRefreshCarsDoneAction(
   action: any,
 ): action is RefreshCarsDoneAction {
-  return action?.type === REFRESH_COLORS_DONE_ACTION;
+  return action?.type === REFRESH_CARS_DONE_ACTION;
 }
 
 export const createRefreshCarsDoneAction: CreateRefreshCarsDoneAction = (cars) =>
 ({
-  type: REFRESH_COLORS_DONE_ACTION,
+  type: REFRESH_CARS_DONE_ACTION,
   payload: {
     cars,
   }
@@ -220,7 +220,7 @@ export const removeCar = (carId: number) => {
   return async (dispatch: Dispatch) => {
 
     dispatch(createRemoveCarRequestAction(carId));
-    await fetch('http://localhost:3060/cars/' + encodeURIComponent(carId), {
+    await fetch(`http://localhost:3060/cars/${encodeURIComponent(carId)}`, {
       method: 'DELETE',
     });
     refreshCars()(dispatch);
